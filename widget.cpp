@@ -50,7 +50,7 @@ Widget::Widget(QWidget *parent)
     //const QPalette& palette = this->palette();
     const QPalette& palette = QApplication::style()->standardPalette();
 
-
+    unsigned row =0;
     for (auto group : groups) {
         for (auto role : roles) {
             const auto color = palette.color((QPalette::ColorGroup)group.value, (QPalette::ColorRole)role.value);
@@ -64,9 +64,17 @@ Widget::Widget(QWidget *parent)
 
             label->setStyleSheet(style);
             label->setText(text);
+            ui->gridLayout->addWidget(label, row, 0);
 
-            ui->verticalLayout->addWidget(label);
+            QLabel* foo = new QLabel(this);
+            foo->setText(text);
+            ui->gridLayout->addWidget(foo, row, 1);
 
+            QLabel* rgb = new QLabel(this);
+            rgb->setText(QString("rgb(%1, %2, %3), %4").arg(r).arg(g).arg(b).arg(color.name(QColor::NameFormat::HexRgb)));
+            ui->gridLayout->addWidget(rgb, row, 2);
+
+            ++row;
         }
     }
 
